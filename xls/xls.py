@@ -1,22 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import ConfigParser
 import xlwt
-import sys
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-CONFIG = '/Users/apple/code/python/data_group_automation_project/config.ini'
-XLS_FILE = '/Users/apple/code/python/data_group_automation_project/test.xls'
-
-
-# 读取配置文件
-def read_config(namespace, key):
-    config = ConfigParser.ConfigParser()
-    config.read(CONFIG)
-    return config.get(namespace, key)
+XLS_FILE = '/Users/apple/code/python/python_script/test.xls'
 
 
 def convert_database_result_2_xls(results, fields):

@@ -1,33 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import ConfigParser
-import MySQLdb as mysqldb
 import sys
-
+import os
 reload(sys)
 sys.setdefaultencoding('utf8')
-
-CONFIG = '/Users/apple/code/python/data_group_automation_project/config.ini'
-XLS_FILE = '/Users/apple/code/python/data_group_automation_project/test.xls'
-
-
-# 读取配置文件
-def read_config(namespace, key):
-    config = ConfigParser.ConfigParser()
-    config.read(CONFIG)
-    return config.get(namespace, key)
+abspath = os.path.abspath('.') + '/python_script/config'
+sys.path.append(abspath)
+from config import config
+import MySQLdb as mysqldb
 
 
 # 查询sql数据并转化为list
 def query_data():
     print 'start query data'
-    db = mysqldb.connect(host=read_config('database', 'host'),
-                         user=read_config('database', 'user'),
-                         passwd=read_config('database', 'passwd'),
-                         db=read_config('database', 'db'))
+    db = mysqldb.connect(host=config.read_config('database', 'host'),
+                         user=config.read_config('database', 'user'),
+                         passwd=config.read_config('database', 'passwd'),
+                         db=config.read_config('database', 'db'))
     cursor = db.cursor()
-    cursor.execute(read_config('database', 'sql'))
+    cursor.execute(config.read_config('database', 'sql'))
     # 重置游标的位置
     cursor.scroll(0, mode='absolute')
     # 搜取所有结果

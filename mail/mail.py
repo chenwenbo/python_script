@@ -1,7 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import ConfigParser
+import sys
+import os
+reload(sys)
+sys.setdefaultencoding('utf8')
+abspath = os.path.abspath('.') + '/python_script/config'
+sys.path.append(abspath)
+from config import config
 from email import encoders
 from email.header import Header
 from email.mime.text import MIMEText
@@ -9,20 +15,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
 from email.utils import parseaddr, formataddr
 import smtplib
-import sys
-
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-CONFIG = '/Users/apple/code/python/data_group_automation_project/config.ini'
-XLS_FILE = '/Users/apple/code/python/data_group_automation_project/test.xls'
-
-
-# 读取配置文件
-def read_config(namespace, key):
-    config = ConfigParser.ConfigParser()
-    config.read(CONFIG)
-    return config.get(namespace, key)
 
 
 def _format_addr(s):
@@ -36,9 +28,9 @@ def _format_addr(s):
 def send_mail_by_xls():
     print 'start send mail'
 
-    _user = read_config('email', 'user')
-    _pwd = read_config('email', 'pwd')
-    _to = read_config('email', 'to')
+    _user = config.read_config('email', 'user')
+    _pwd = config.read_config('email', 'pwd')
+    _to = config.read_config('email', 'to')
 
     try:
         msg = MIMEMultipart()
@@ -51,7 +43,7 @@ def send_mail_by_xls():
 
         # 添加附件就是加上一个MIMEBase，从本地读取一个图片:
         with open(
-            '/Users/apple/code/python/data_group_automation_project/test.xls',
+            '/Users/apple/code/python/python_script/test.xls',
                 'rb') as f:
             # 设置附件的MIME和文件名，这里是png类型:
             # mime = MIMEBase('xls', 'xls', filename='test.xls')
